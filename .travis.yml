@@ -6,10 +6,8 @@ go:
 
 install:
   - go get golang.org/x/tools/cmd/cover
-  - go get -u github.com/golang/dep/...
   - go get github.com/mattn/goveralls
   - go get github.com/modocache/gover
-  - dep ensure -update
 
 script:
   - go test -coverprofile=gunit.coverprofile -v ./...
