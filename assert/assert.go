@@ -24,11 +24,9 @@ func ObjectEqual(expected, actual interface{}) bool {
 		return expected == actual
 	}
 	if exp, ok := expected.([]byte); ok {
-		act, ok := actual.([]byte)
-		if !ok {
-			return false
+		if act, ok := actual.([]byte); ok {
+			return bytes.Equal(exp, act)
 		}
-		return bytes.Equal(exp, act)
 	}
 	return reflect.DeepEqual(expected, actual)
 }
