@@ -4,19 +4,29 @@ import (
 	"bytes"
 	"fmt"
 	"reflect"
-	"runtime"
-	"strings"
 )
 
 type T interface {
-	Errorf(format string, args ...interface{})
+	Fail()
 }
 
-func Equal(t T, expected, actual interface{}) bool {
-	if !ObjectEqual(expected, actual) {
-		return Fail(t, fmt.Sprintf("Expected %s but found %s.", expected, actual))
-	}
-	return true
+type logFacade struct {
+	t      T
+	logger logger
+}
+
+type Assertion struct {
+	logFacade *logFacade
+}
+
+func GetAssertion(t T) *Assertion {
+	return &Assertion{&logFacade{t, theLogger}}
+}
+
+func Fail(log *logFacade, message string) bool {
+	log.logger.Log(assertLocation(2), message)
+	log.t.Fail()
+	return false
 }
 
 func ObjectEqual(expected, actual interface{}) bool {
@@ -31,38 +41,9 @@ func ObjectEqual(expected, actual interface{}) bool {
 	return reflect.DeepEqual(expected, actual)
 }
 
-func Fail(t T, message string) bool {
-	t.Errorf("%s %s", "\r"+strings.Join(callerStackTrace(), "\n\r"), message)
-	return false
-}
-
-func callerStackTrace() (callers []string) {
-	for i := 0; ; i++ {
-		pc, file, line, ok := runtime.Caller(i)
-
-		if !ok {
-			break
-		}
-
-		f := runtime.FuncForPC(pc)
-		if f == nil {
-			break
-		}
-
-		path := strings.Split(file, "/")
-		file = path[len(path)-1]
-		if len(path) > 1 {
-			dir := path[len(path)-2]
-			if dir != "assert" {
-				callers = append(callers, fmt.Sprintf("%s:%d", file, line))
-			}
-		}
-
-		name := strings.Split(f.Name(), ".")
-		function := name[len(name)-1]
-		if strings.HasPrefix(function, "Test") {
-			break
-		}
+func (a *Assertion) Equal(expected, actual interface{}) bool {
+	if !ObjectEqual(expected, actual) {
+		return Fail(a.logFacade, fmt.Sprintf("Expected %v but found %v.", expected, actual))
 	}
-	return
+	return true
 }
