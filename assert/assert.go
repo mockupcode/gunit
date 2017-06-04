@@ -15,21 +15,21 @@ type logFacade struct {
 	logger logger
 }
 
-type Assertion struct {
+type assertion struct {
 	logFacade *logFacade
 }
 
-func GetAssertion(t T) *Assertion {
-	return &Assertion{&logFacade{t, theLogger}}
+func GetAssertion(t T) *assertion {
+	return &assertion{&logFacade{t, theLogger}}
 }
 
-func Fail(log *logFacade, message string) bool {
+func fail(log *logFacade, message string) bool {
 	log.logger.Log(assertLocation(2), message)
 	log.t.Fail()
 	return false
 }
 
-func ObjectEqual(expected, actual interface{}) bool {
+func objectEqual(expected, actual interface{}) bool {
 	if expected == nil || actual == nil {
 		return expected == actual
 	}
@@ -41,9 +41,9 @@ func ObjectEqual(expected, actual interface{}) bool {
 	return reflect.DeepEqual(expected, actual)
 }
 
-func (a *Assertion) Equal(expected, actual interface{}) bool {
-	if !ObjectEqual(expected, actual) {
-		return Fail(a.logFacade, fmt.Sprintf("Expected %v but found %v.", expected, actual))
+func (a *assertion) Equal(expected, actual interface{}) bool {
+	if !objectEqual(expected, actual) {
+		return fail(a.logFacade, fmt.Sprintf("Expected %v but found %v.", expected, actual))
 	}
 	return true
 }

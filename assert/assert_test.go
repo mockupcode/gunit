@@ -8,7 +8,7 @@ import (
 func TestEqual(t *testing.T) {
 	mockT := new(testing.T)
 	buffer := &bytes.Buffer{}
-	assert := &Assertion{&logFacade{mockT, &loggerImpl{writer: buffer}}}
+	assert := &assertion{&logFacade{mockT, &loggerImpl{writer: buffer}}}
 
 	if !assert.Equal("String", "String") {
 		t.Error("Equal must return true")
@@ -58,5 +58,5 @@ func TestFailIsPanic(t *testing.T) {
 	}()
 	mockT := new(testing.T)
 	buffer := &bytes.Buffer{}
-	Fail(&logFacade{mockT, &loggerImpl{writer: buffer}}, "message")
+	fail(&logFacade{mockT, &loggerImpl{writer: buffer}}, "message")
 }
