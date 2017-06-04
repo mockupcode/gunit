@@ -49,3 +49,14 @@ func TestGetAssertion(t *testing.T) {
 		t.Error("GetAssertion must not nil")
 	}
 }
+
+func TestFailIsPanic(t *testing.T) {
+	defer func() {
+		if r := recover(); r == nil {
+			t.Errorf("The code did not panic")
+		}
+	}()
+	mockT := new(testing.T)
+	buffer := &bytes.Buffer{}
+	Fail(&logFacade{mockT, &loggerImpl{writer: buffer}}, "message")
+}
