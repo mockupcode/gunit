@@ -1,4 +1,4 @@
-# GUnit [![GoDoc](https://godoc.org/github.com/mockupcode/gunit/assert?status.svg)](https://godoc.org/github.com/mockupcode/gunit/assert) [![Build Status](https://travis-ci.org/mockupcode/gunit.svg?branch=master)](https://travis-ci.org/mockupcode/gunit) [![Coverage Status](https://coveralls.io/repos/github/mockupcode/gunit/badge.svg)](https://coveralls.io/github/mockupcode/gunit)
+# GUnit [![GoDoc](https://godoc.org/github.com/mockupcode/gunit/assert?status.svg)](https://godoc.org/github.com/mockupcode/gunit/assert) [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/mockupcode/gunit/blob/master/LICENSE) [![Build Status](https://travis-ci.org/mockupcode/gunit.svg?branch=master)](https://travis-ci.org/mockupcode/gunit) [![Coverage Status](https://coveralls.io/repos/github/mockupcode/gunit/badge.svg)](https://coveralls.io/github/mockupcode/gunit)
 
 Assertion library for golang!
 
