@@ -10,7 +10,7 @@ To get the package, execute:
 
 To import this package, add the following line to your code:
 
-	import "github.com/mockupcode/gunit"
+	import "github.com/mockupcode/gunit/assert"
 
 And just start using it.
 ```go
